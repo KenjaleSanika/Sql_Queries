@@ -1,0 +1,16 @@
+
+mysql --version  (check mysql version)
+mysql -u root -p (to enter password of mysql)
+select user();   (to see a user)
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+
+select @@port;(used to see port no)
++--------+
+| @@port |
++--------+
+|   3306 |
++--------+

@@ -1,0 +1,131 @@
+show databases; ---> to show all databases 
+use db;    ----> use a existing databases(use database name)
+create table student(id int not null primary key,name varchar(30),city varchar(50),marks int); -----> to create a table
+desc student; -----> to show a table with table field datatype (desc table name)
+insert into student values(1,'piya','satara',90),(2,'tiya','sangli',60),(3,'Adi','pune',40),(4,'sam','mumbai',30); ----> insert the values in table
+select * from student; -----> to show table record ( select * from table name)
+select name from student; ----> to show particular column
+select  name from  student where id=1; -----> to show particular record
+update student set city ='kolahpur' where id=4; ----->update the particular records in table
+alter table student add subject varchar(30); ----> add a new column in existing table
+alter table student modify name varchar(60); ----> modify the datatype of name
+alter table student drop column subject; ----> drop a column from table
+delete from student where name='tiya'; -----> delete particular record from table
+alter table student rename to students; ----> to rename the table name
+truncate table student; ----> remove a all record from table 
+DROP TABLE employee; -----> delete table
+DROP DATABASE database_name;----> delete database
+
+
+
+Aggregate function:
+select sum(marks) from student;---->sum the all reecords
+select avg(marks) from student;----> average the marks
+select count(marks) from student;---->count the how many field are their
+select max(marks) from student;---->find maximum
+select min(marks) from student;---->find minimum
+
+
+
+like search for pattern:
+_ used for single character
+% used for multiple character
+
+select * from student where name like 'p%';----> name start with p character 
+select * from student where name like '%m';-----> name ends with m character
+select * from student where name like '_a%'; ----> select name from table onwords of a only one letter have to present 
+select * from student where name like '%y_'; 
+
+
+clauses:
+select name from student where marks<50;---->where clause used to set a condition
+select name, count(id) from student  group by name;-----> group by clause used to group a column and count can count a id 
+select name, count(id) from student  group by name having avg(marks)<50;----> having clause use to set a condition with group by clause
+select * from student order by marks;----> order a marks by default ascending order (smaller to larger)
+select * from student order by marks desc;----> order a marks by descending order (larger to smaller)
+
+limit clause:
+The LIMIT clause in SQL is used to specify the maximum number of rows that the query should return. 
+
+SELECT emp_name
+FROM employee
+LIMIT 5;---->This query selects the emp_name from the employee table and limits the result to the first 5 rows.
+
+Using LIMIT with OFFSET:
+You can also use the LIMIT clause with an OFFSET to skip a certain number of rows before beginning to return the rows.
+
+SELECT emp_name
+FROM employee
+LIMIT 5 OFFSET 5;--->The query skips the first 5 rows and then retrieves the next 5 rows.
+
+
+
+
+select * from student where marks>50 and city='satara';---->and
+select * from student where city='satara' or 'sangli';---->or
+select * from student where (city='satara' and marks>50) or(city='pune' and marks<50);----> and , or combined
+select name, marks from student where marks  between 50 and 90;-----> between 
+
+
+joins:
+
+inner join:
+---fetch the employee name and the department name they belong to--- 
+select e.emp_name,d.dept_name from employee e inner join deparment d on e.dept_id=d.dept_id;
+select e.emp_name,d.dept_name from employee e join deparment d on e.dept_id=d.dept_id;
+
+explanation: at left and right side of join we have table and then after a join condition
+inner join can fetch the data which are presnt in both the column. fetches matching records only
+
+Left join:
+---fetch the all the  employee name and the department name they belong to--- 
+select e.emp_name,d.dept_name from employee e left join deparment d on e.dept_id=d.dept_id;
+
+explanation: left join= inner join +any additional records in the left tables
+first fetch comman record in both table and then fetch remaining (additional)record in left table
+
+
+Right join:
+select e.emp_name,d.dept_name from employee e right join deparment d on e.dept_id=d.dept_id;
+
+explanation: left join= inner join +any additional records in the right tables
+first fetch comman record in both table and then fetch remaining (additional)record in right table
+
+
+Full outer join:
+full outer join also referred a full join
+select e.emp_name,d.dept_name from employee e full join deparment d on e.dept_id=d.dept_id;
+You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full join deparment d on e.dept_id=d.dept_id' at line 1
+MySQL does not support the FULL JOIN syntax directly. Instead, you can achieve the same result using a combination of LEFT JOIN and RIGHT JOIN with a UNION.
+
+SELECT e.emp_name, d.dept_name
+FROM employee e
+LEFT JOIN department d ON e.dept_id = d.dept_id
+UNION
+SELECT e.emp_name, d.dept_name
+FROM employee e
+RIGHT JOIN department d ON e.dept_id = d.dept_id;
+
+explanation: full join= inner join(take a comman record from left and right table) + all remaining records 
+from left table(returns null value for any column fetch)+all remaining records from right table(returns null value for any column fetch)
+so basically it do inner join,right join,left join together
+
+Cross join: 
+cross join is also refer to as cartesian join(products)
+no need to specify join condition
+
+select e.emp_name , d.dept_name from employee e cross join deparment d;----> employee table having 6 records and departmnet table having 4 records
+no of record on left side will be multiplied by no of record on right side
+
+Natural Join:
+it is not similar to inner join .. it has some similarity but it doesnt same
+no need to specify join condition
+sql wiil decide on which column join will happen. user will not decide
+select e.emp_name,d.dept_name from employee e natural join deparment d;---> fetch the all the records comman in both the table
+it look like inner join but it is  some how different 
+
+
+
+
+
+
